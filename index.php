@@ -1,5 +1,6 @@
 <html>
 
+<!-- The entry in the "links" determines which demos are available on the bottom menu !-->
 <script>
 
 /* In this dictionary we list what links we have in the menu */
@@ -7,8 +8,8 @@
 var links = [
   // Main website interface
   {'name': 'Ubuntu',
-   'url': window.location.protocol + '//' + window.location.hostname + ':80/default.html',
-   'caption': 'By <b>Taiten Peng <i>(@Taitenpeng)</i></b><br><i>Master Linux plumber</i>',
+   'url': window.location.protocol + '//' + window.location.hostname + ':80/default.php',
+   'caption': 'By <b>Taiten Peng <i>(@Taitenpeng)</i></b> and <b>J-C Verdié<i>(@jcverdie)</i></b><br><i>Master Linux plumbers</i>',
    'image': 'web.svg'},
 
    // Ogra's demo with camera
@@ -17,23 +18,24 @@ var links = [
     'caption': 'By <b>Oliver Grawert<i>(@ogra)</i></b><br><i>Master Linux plumber</i>',
     'image': 'camera1.svg'},
 
+
    // Diego's demo with Sensors
    {'name': 'sensors',
     'url': window.location.protocol + '//' + window.location.hostname + ':7880/ui',
     'caption': 'By <b>Diego Bruno <i>(@dbruno74)</i></b><br><i>Master Linux plumber</i>',
     'image': 'node.svg'},
 
-    // Automotive demo
+    // Automotive mp4 video
     {'name': 'auto',
      'url': window.location.protocol + '//' + window.location.hostname + ':4000',
-     'caption': '',
+     'caption': 'By <b>Bugra Aydogar <i>(@bugraaydogar)</i></b><br><i>Master Linux plumber</i>',
      'image': 'car.svg'},
 
-    // Automotive video
-    {'name': 'video',
-     'url': window.location.protocol + '//' + window.location.hostname + ':80/auto_video.html',
-     'caption': '',
-     'image': 'video.png'}
+     // Automotive video
+     {'name': 'video',
+      'url': window.location.protocol + '//' + window.location.hostname + '/auto_video.html',
+      'caption': '',
+      'image': 'video.png'}
 
 ];
 
@@ -124,8 +126,18 @@ function writeTitle(text){
   document.getElementById('plumber').innerHTML = text;
 }
 
+// This script highlights the button in bright orange if the function has been selected
+// Orange means ON, White means OFF
+function toggleButton(idStr)
+{
+  if (document.getElementById(idStr).style.color == 'orange')
+     document.getElementById(idStr).style.color = 'white';
+  else document.getElementById(idStr).style.color = 'orange'
+}
+
 </script>
 
+<!-- The following will include the Ubuntu fonts !-->
 <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8"/>
 
 <style>
@@ -175,7 +187,7 @@ div.button{
 body {
   background-color: black;
   overflow: hidden;
-  font-family: 'ubunturegular';
+  font-family: 'ubuntulight';
 }
 
 div.nav {
@@ -185,32 +197,46 @@ div.nav {
   min-width: 100%;
   margin-top: -10%;
   visibility: hidden;
+  color: white;
 }
 
 div.logo {
-  z-index: 10;
-  position: fixed;
-  top: 0;
+  bottom:0;
+  position:fixed;
+  z-index:10;
+  _position:absolute;
+  _top:expression(eval(document.documentElement.scrollTop+
+    (document.documentElement.clientHeight-this.offsetHeight)));
+
   right: -10;
   visibility: hidden;
   opacity: 0.50;
+  background-color: #000000;
+  text-align: center;
+  padding: 5;
 }
 
 div.title {
-  z-index: 12;
-  position: fixed;
-  top: 200;
-  right: 25;
+  bottom: 0;
+  position:fixed;
+  z-index:10;
+  _position:absolute;
+  _top:expression(eval(document.documentElement.scrollTop+
+    (document.documentElement.clientHeight-this.offsetHeight)));
+
+  left: 10;
   visibility: hidden;
   opacity: 0.50;
-  background-color: #FFFFFF;
+  background-color: #000000;
   text-align: center;
   padding: 5;
+  color: white;
 }
 
 </style>
 
 <body height="100%" width="100%"><div class="overlay" onmousemove="mouseMove()">
+  <!-- By default, the first demo is shown !-->
   <script language="Javascript">
   document.write('<iframe src="' + links[0]['url'] + '" title="Default" name="main" height="100%" width="100%" border=0 frameBorder=0></iframe>');
   currentURL = links[0]['url'];
@@ -221,11 +247,19 @@ div.title {
 <center>
 <img src="/core_white-orange_st_hex.svg" height="150" width="212" border="0">
 <br>
-<img src="/intel.png" height="30" width="100">
+<!-- Select a logo based on the platform you are running on !-->
+<?php
+$core = php_uname('m');
+if ($core == 'x86_64') echo '<img src="/intel.png" height="60" width="100">';
+if ($core == 'aarch64') echo '<img src="/Arm_logo_2017.svg" height="30" width="100">';
+echo '</b></font>';
+?>
+
 </center>
 </div>
 
 <div class="title" id="plumber">
+<!-- By default, the first demo is shown !-->
 <script language="Javascript">
 document.write(links[0]['caption']);
 </script>
@@ -254,13 +288,13 @@ document.write(links[0]['caption']);
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td><div class="button" onclick="toggleDiv('plumber')">Captions</div></td>
+            <td><div class="button" id='plumberButton' onclick="toggleDiv('plumber');toggleButton('plumberButton');">Captions</div></td>
           </tr>
           <tr>
-            <td><div class="button" onclick="toggleDiv('ubuntu');">Logo</div></td>
+            <td><div class="button" id='ubuntuButton' onclick="toggleDiv('ubuntu');toggleButton('ubuntuButton');">Logo</div></td>
           </tr>
           <tr>
-            <td><div class="button" onclick="rotateDemos();">Rotate</div></td>
+            <td><div class="button" id='rotateButton' onclick="rotateDemos();toggleButton('rotateButton');">Rotate</div></td>
           </tr>
         </table>
         </font>
