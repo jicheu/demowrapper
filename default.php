@@ -71,8 +71,6 @@ div.screen {
       if(php_uname('m') == 'aarch64') echo '<img src="/AMD.png" width="88">';
 
    }
-
-
   ?>
   </td></tr>
 
@@ -81,9 +79,8 @@ div.screen {
   <?php
    if(endsWith(php_uname('m'), 'aarch64'))
       echo "<img src='Arm_logo_2017.svg' height='25'>";
-
    if(endsWith(php_uname('m'), 'x86_64'))
-      echo "<img src='intel.png' height='60'>";
+      echo "<img src='intel.png' width='113'>";
   ?>
 
   </td></tr>

@@ -212,6 +212,31 @@ function resizeLogos()
         imgs[0].width = imgs[1].width;
     }
 }
+
+// This gets invoked during load. In presence of a extra_link.json file, it will add demos
+// to the links variable we have
+function addDemoEntriesFromFile()
+{
+   <?php
+      if (file_exists($_SERVER['DOCUMENT_ROOT'] . 'extra_links.json'))
+      {
+          $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . 'extra_links.json');
+          $data = json_decode($json, true);
+          foreach ($data as $entry) echo 'links.push({
+              "name":"' . $entry["name"] . '",' .
+              '"url":"' . $entry["url"] . '",' .
+              '"caption":"' . $entry["caption"] . '",' .
+              '"image":"' . $entry["image"] . '",' . 
+              '"logos_loc":"' . $entry["logos_loc"] . '",' . 
+              '"caption_loc":"' . $entry["caption_loc"] . '",' . 
+              '"snap":"' . $entry["snap"] . '"' . 
+          '});'; 
+      }
+   ?>
+}
+
+// This call will add the additional demo entries from file extra_link.json
+addDemoEntriesFromFile();
 </script>
 
 <!-- The following will include the Ubuntu fonts !-->
@@ -310,6 +335,19 @@ div.title {
   color: white;
 }
 
+div.recognition {
+  position: fixed; 
+  top : 25;
+  left: 25;
+  z-index: 15;
+  visibility: hidden;
+  background-color: #FFFFFF;
+  text-align: center;
+  padding: 5;
+  color: #000000;
+}
+
+
 </style>
 
 <body height="100%" width="100%" onload='resizeLogos()'><div class="overlay" onmousemove="mouseMove()">
@@ -367,7 +405,7 @@ document.write(links[0]['caption']);
   <table border=0 bgcolor="black" width="100%" height="200">
     <tr>
       <td valign="top" align="left">
-        <a href="#" onclick="alert(currentURL);">
+        <a href="#" onclick="toggleDiv('fame');">
         <img src="/core_white-orange_st_hex.svg" height="100" width="141">
         </a>
       </td>
@@ -401,6 +439,20 @@ document.write(links[0]['caption']);
    </tr>
   </table>
 </div>
+<div class="recognition" id="fame">
+<h3><p>A production of <b><u>Canonical's Field Engineering IoT</u></b></p>
+<p>With valuable contributions from <b><u>Marketing</u></b> and <b><u>Product Management</u></b></p></h3>
+<h4><u>Contributors</u></h4>
+<script>
+for(var j=0; j<links.length; j++)
+{
+  if(links[j]['caption'].length) document.write('<u>' + links[j]['name'] + '</u>' + ' ' + links[j]['caption'] + '<br>');
+}
+</script>
+<p>Image generation by <b>Jean-Charles Verdié(@jcverdie)</b>, build-master of our Universe </p>
+<p>An idea and menu by <b>Steve Barriault(@skidooman)</b>, the skipper of the best crew of Linux plumbers around</p>
 
-</body>
-</html>
+<p>Special thanks to <b>Julie Chevrier, Nathan Hart, Felicia Jia and Bertrand Boisseau</b> 
+<p>Running on <b><u>Ubuntu Core</u></b>, the most secure Linux of the IoT realm</p>
+</div>
+</body></html>
