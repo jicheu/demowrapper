@@ -2,8 +2,7 @@
 <html>
 
 <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8"/>
-
-
+<?php include 'language_inc.php' ?>
 
 <style>
 body { font-family: 'ubuntulight';}
@@ -38,7 +37,10 @@ div.screen {
   background-color: #300A24;
 }
 
-
+a:link { color: white;}
+a:active { color: orange;}
+a:visited { color: white;}
+a:hover { color: orange;}
 
 </style>
 <table border="0">
@@ -46,10 +48,10 @@ div.screen {
 <div class='screen'>
 <h2>
 <table border='0' padding='3' spacing='10'>
-  <tr><td valign='top'>OS</td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('v');?></td><td>
+  <tr><td valign='top'><script>translate('OS')</script></td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('v');?></td><td>
   <img src='core_white-orange_st_hex.svg' height='80'>
   </td></tr>
-  <tr><td valign='top'>Kernel</td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('r');?>
+  <tr><td valign='top'><script>translate('Kernel')</script></td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('r');?>
   </td><td>
   <?php
     // Function to check the string is ends 
@@ -74,7 +76,7 @@ div.screen {
   ?>
   </td></tr>
 
-  <tr><td valign='top'>Chipset</td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('m');?>
+  <tr><td valign='top'><script>translate('Chipset')</script></td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo php_uname('m');?>
   </td><td>
   <?php
    if(endsWith(php_uname('m'), 'aarch64'))
@@ -84,7 +86,7 @@ div.screen {
   ?>
 
   </td></tr>
-  <tr><td valign='top'>IP</td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo $_SERVER['SERVER_ADDR'];?></td><td></td></tr>
+  <tr><td valign='top'><script>translate('IP')</script></td><td>&nbsp;&nbsp;</td><td valign='top'><?php echo $_SERVER['SERVER_ADDR'];?></td><td></td></tr>
 </table>
 </h2>
 </td>
@@ -95,8 +97,9 @@ div.screen {
 
 <td>
 <font color='#FFFFFF'>
-<h1>Welcome to Canonical</h1>
+<h1><script>translate('Welcome to Canonical')</script></h1>
 <h3>Files under /var/snap/iotdevice-lighttpd/current/www/</h3>
+<p><h3>Versions: <a href='language_en.php' target='_top'>EN</a> | <a href='language_jp.php' target='_top'>JP</h3></p>
 </font>
 
 </font>
