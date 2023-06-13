@@ -8,7 +8,32 @@
 <script>
 
 // This populates a list of snaps. The txt file was generated after the board was launched based on a REST API call.
-var snaps ="<?php if (file_exists('list_snaps.txt')) {echo shell_exec('cat list_snaps.txt');}?>";
+var snaps ="<?php if (file_exists('snap_list.txt')) 
+    {$json=file_get_contents('snap_list.txt'); 
+     $json_data=json_decode($json,true);
+     //print_r($json_data);
+     foreach($json_data as $key => $value)
+     {
+        if ($key=='result')
+        {
+           $stack = array();
+           foreach($value as $entry){
+              foreach($entry as $entry_key => $entry_value)
+              {
+                 if (!in_array($entry_value, $stack)){
+                    print_r($entry_value . " ");
+                    array_push($stack, $entry_value);
+                 }
+              }
+              // print_r($entry_value.' ');
+           }
+        }
+     }
+     //$snaps=$json_data->result;
+     //echo $snaps;
+     //foreach($snaps as $snap){echo $snap->snap;}   
+     //echo shell_exec('cat list_snaps.txt');
+    }?>";
 
 // This detects a list of boards that are available (or not) on the network
 var additional_boards=[<?php $connection=@fsockopen('core-car',5000); if(is_resource($connection)) {echo '"core-car",';}?>];
@@ -290,8 +315,8 @@ iframe {
 }
 
 a {
-  font-weight: normal;
-  font-size: 24;
+  <? if (file_exists('jp')) echo 'font-weight: bold;'; else echo 'font-weight: normal;';?>
+  <? if (file_exists('jp')) echo 'font-size: 18;'; else echo 'font-size: 24;';?>
 }
 
 a:link {
@@ -305,8 +330,8 @@ a:visited {
 }
 
 div.button{
-  font-weight: normal;
-  font-size: 24;
+  <? if (file_exists('jp')) echo 'font-weight: bold;'; else echo 'font-weight: normal;';?>
+  <? if (file_exists('jp')) echo 'font-size: 18;'; else echo 'font-size: 24;';?>
   color: white;
 }
 
@@ -426,7 +451,7 @@ document.write(links[0]['caption']);
 </div>
 
 <div class="nav" id="navigation">
-  <table border=0 bgcolor="black" width="100%" height="200">
+  <table border=0 bgcolor="black" width="100%" height="225">
     <tr>
       <td valign="top" align="left">
         <a href="#" onclick="toggleDiv('fame');">
@@ -437,11 +462,10 @@ document.write(links[0]['caption']);
         for (var i=0; i < links.length; i++)
            document.write(getLinkHTMLEntry(i));
       </script>
-
-      <td width="35%">
+      <? if (file_exists('jp')) echo '<td width="10%">'; else echo '<td width="25%">';?>
         &nbsp;
       </td>
-      <td valign="top" align='right'>
+      <td width="15%" valign="top" align='right'>
         <font size="7">
         <table border="0">
           <tr>
